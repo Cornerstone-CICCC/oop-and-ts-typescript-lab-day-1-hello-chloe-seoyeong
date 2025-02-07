@@ -9,29 +9,50 @@
 type StudentStatus = "active" | "graduated" | "dropped";
 
 type Student = {
-
+  studentId: number,
+  name: string,
+  age: number,
+  subject: string[],
+  status: StudentStatus
 }
 
-const students: Student[] = [];
+let students: Student[] = [];
 
-function addStudent(studentId, name, age, subjects, status) {
+function addStudent(studentId: number, name: string, age: number, subjects: string[], status: StudentStatus): Student[] {
+  students.push({
+    studentId,
+    name,
+    age,
+    subject: subjects,
+    status
+  })
 
+  return students
 }
 
-function updateStatus(studentId, status) {
+function updateStatus(studentId: number, status: StudentStatus): string {
+  const selectedStudent = students.filter(student => student.studentId === studentId)[0];
+  selectedStudent.status = status;
 
+  return `${selectedStudent.name} has ${selectedStudent.status}`;
 }
 
-function addSubject(studentId, subject) {
-
+function addSubject(studentId: number, subject: string) {
+  const selectedStudent = students.filter(student => student.studentId === studentId)[0];
+  selectedStudent.subject.push(subject);
+  return `${subject} added to ${selectedStudent.name}'s subjects`;
 }
 
-function getStudent(studentId) {
-
+function getStudent(studentId: number): Student {
+  const selectedStudent = students.filter(student => student.studentId === studentId)[0];
+  return selectedStudent
 }
 
 // Test cases (Create more if needed)
 console.log(addStudent(1, "Alice", 20, ["Math", "Science"], "active")) // { studentId: 1, name: "Alice", age: 20, subjects: ["Math", "Science"], status: "active" }
+console.log(addStudent(2, "Alex", 50, ["Cook", "Art"], "dropped"))
 console.log(updateStatus(1, "graduated")) // "Alice has graduated"
 console.log(addSubject(1, "History")) // "History added to Alice's subjects"
+console.log(updateStatus(2, "active")) // "Alice has graduated"
 console.log(getStudent(1)) // { studentId: 1, name: "Alice", age: 20, subjects: ["Math", "Science", "History"], status: "graduated" }
+console.log(getStudent(2))
