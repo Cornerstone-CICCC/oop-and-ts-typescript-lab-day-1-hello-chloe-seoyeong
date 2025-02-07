@@ -8,39 +8,64 @@
 // 7. Create a function called removeBook which will remove a book from the library array. The return needs to be a string.
 
 enum BookGenre {
-  Fantasy,
+  Fantasy = "Fantasy",
   // add 4 more
+  Comic = "Comic",
+  Drama = "Drama",
+  Horror = "Horror",
+  Action = "Action",
+  Nonfiction = "Nonfiction"
 }
 
 type Book = {
-
+  bookId: number,
+  title: string,
+  author: string,
+  genre: BookGenre,
+  isAvailable: boolean
 }
 
-const library: Book[] = [];
+let library: Book[] = [];
 
-function addBook(bookId, title, author, genre) {
-
+function addBook(bookId: number, title: string, author: string, genre: BookGenre): Book[]{
+  library.push({
+    bookId,
+    title,
+    author,
+    genre,
+    isAvailable: true
+  })
+  return library
 }
 
-function borrowBook(bookId) {
-
+function borrowBook(bookId: number): string {
+  const selectedBook = library.filter(book => book.bookId === bookId)[0]
+  selectedBook.isAvailable = false;
+  return `${selectedBook.title} has benn borrowed`;
 }
 
-function returnBook(bookId) {
-
+function returnBook(bookId: number): string {
+  const selectedBook = library.filter(book => book.bookId === bookId)[0]
+  selectedBook.isAvailable = true;
+  return `${selectedBook.title} has benn returned`;
 }
 
-function checkAvailability(bookId) {
-
+function checkAvailability(bookId: number): boolean {
+  const selectedBook = library.filter(book => book.bookId === bookId)[0]
+  return selectedBook.isAvailable
 }
 
-function removeBook(bookId) {
-
+function removeBook(bookId: number): string {
+  const selectedBook = library.filter(book => book.bookId === bookId)[0]
+  library = library.filter(book => book.bookId !== bookId)
+  return `${selectedBook.title} has been removed from the library`;
 }
 
 // Test cases (Create more if needed)
 console.log(addBook(1, "The Hobbit", "J.R.R. Tolkien", BookGenre.Fantasy)) // { bookId: 1, title: "The Hobbit", author: "J.R.R. Tolkien", genre: BookGenre.Fantasy, isAvailable: true }
+console.log(addBook(2, "Vegetarian", "Han Kang", BookGenre.Drama))
 console.log(borrowBook(1)) // "The Hobbit has been borrowed"
 console.log(checkAvailability(1)) // false
 console.log(returnBook(1)) // "The Hobbit has been returned"
 console.log(removeBook(1)) // "The Hobbit has been removed from the library"
+console.log(library)
