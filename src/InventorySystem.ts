@@ -8,21 +8,35 @@
 type ItemDetails = [string, number, boolean]
 
 type InventoryItem = {
-
+  itemId: number,
+  details: ItemDetails
 }
 
-const inventory: InventoryItem[] = [];
+let inventory: InventoryItem[] = [];
 
-function addItem(itemId, itemName, quantity, isAvailable) {
+function addItem(itemId: number, itemName: string, quantity: number, isAvailable: boolean): InventoryItem {
+  const newStock: InventoryItem = {
+    itemId,
+    details: [
+      itemName,
+      quantity,
+      isAvailable
+    ]
+  }
 
+  inventory.push(newStock)
+  return newStock
 }
 
-function updateStock(itemId, quantity) {
-
+function updateStock(itemId: number, quantity: number): string {
+  const stock = inventory.filter(item => item.itemId === itemId)[0]
+  stock.details[1] = quantity
+  return `Stock updated for ${stock.details[0]}, new quantity: ${stock.details[1]}`;
 }
 
-function checkStock(itemId) {
-
+function checkStock(itemId: number): boolean {
+  const stock = inventory.filter(item => item.itemId === itemId)[0]
+  return stock.details[2]
 }
 
 // Test cases (Create more if needed)
